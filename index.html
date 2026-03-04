@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>簡易 POS 系統</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .product { display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+    .btn-group { margin-top: 10px; }
+    button { padding: 10px; font-size: 16px; border-radius: 6px; border: none; margin: 5px; }
+    .add-btn { background: #4CAF50; color: white; }
+    .remove-btn { background: #f44336; color: white; }
+    button:active { opacity: 0.8; }
+    #result { margin-top: 80px; font-size: 18px; }
+    .clear-btn { background: #555; color: white; padding: 12px; font-size: 18px; border-radius: 8px; margin-top: 20px; }
+    .qty { margin-top: 5px; font-size: 16px; color: #333; }
+    /* 固定頂端總金額區 */
+   #total-bar {
+  position: fixed;
+  top: 10px;          /* 距離頂端一點點 */
+  left: 50%;          /* 水平置中 */
+  transform: translateX(-50%); /* 讓區塊真正置中 */
+  background: #2196F3;
+  color: white;
+  font-size: 16px;    /* 字體縮小 */
+  text-align: center;
+  padding: 8px 16px;  /* 方塊大小 */
+  border-radius: 8px; /* 圓角方塊 */
+  z-index: 1000;
+}
+
+  </style>
+</head>
+<body>
+  <div id="total-bar">總金額: 0 元</div>
+  
+  <h1> 點單系統</h1>
+  
+  <div class="grid" id="product-buttons"></div>
+  
+  <button class="clear-btn" onclick="clearOrder()">清除訂單</button>
+  
+  <div id="result"></div>
+  
+  <script>
+    // 定義商品
+    const products = [
+      {id: 1, name: "咖啡", price: 50},
+      {id: 2, name: "奶茶", price: 45},
+      {id: 3, name: "紅茶", price: 30},
+      {id: 4, name: "綠茶", price: 35},
+      {id: 5, name: "檸檬茶", price: 40},
+      {id: 6, name: "果汁", price: 60},
+      {id: 7, name: "牛奶", price: 55},
+      {id: 8, name: "巧克力", price: 70},
+      {id: 9, name: "蛋糕", price: 90},
+      {id: 10, name: "麵包", price: 35},
+      {id: 11, name: "三明治", price: 80},
+      {id: 12, name: "漢堡", price: 120},
+      {id: 13, name: "薯條", price: 60},
+      {id: 14, name: "沙拉", price: 75},
+      {id: 15, name: "壽司", price: 150},
+      {id: 16, name: "拉麵", price: 180},
+      {id: 17, name: "牛排", price: 350},
+      {id: 18, name: "披薩", price: 250},
+      {id: 19, name: "冰淇淋", price: 100},
+      {id: 20, name: "啤酒", price: 120}
+    ];
+
+    let order = {};
+
+    // 動態生成商品按鈕
+    const productButtons = document.getElementById("product-buttons");
+    products.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <strong>${p.name} (${p.price}元)</strong>
+        <div class="btn-group">
+          <button class="add-btn" onclick="addToOrder(${p.id})">+</button>
+          <button class="remove-btn" onclick="removeFromOrder(${p.id})">-</button>
+        </div>
+        <div class="qty" id="qty-${p.id}">數量: 0</div>
+      `;
+      productButtons.appendChild(div);
+    });
+
+    // 增加商品
+    function addToOrder(id) {
+      if (!order[id]) order[id] = 0;
+      order[id]++;
+      updateResult();
+    }
+
+    // 減少商品
+    function removeFromOrder(id) {
+      if (order[id] && order[id] > 0) {
+        order[id]--;
+        if (order[id] === 0) delete order[id]; // 數量為 0 時移除
+        updateResult();
+      }
+    }
+
+    // 更新明細與總金額
+    function updateResult() {
+      let total = 0;
+      let details = "<h2>消費明細</h2><ul>";
+      products.forEach(p => {
+        const qty = order[p.id] || 0;
+        document.getElementById(`qty-${p.id}`).textContent = `數量: ${qty}`;
+        if (qty > 0) {
+          const subtotal = p.price * qty;
+          total += subtotal;
+          details += `<li>${p.name} x ${qty} = ${subtotal} 元</li>`;
+        }
+      });
+      details += "</ul>";
+      details += `<h3>總金額: ${total} 元</h3>`;
+      document.getElementById("result").innerHTML = details;
+      document.getElementById("total-bar").textContent = `總金額: ${total} 元`;
+    }
+
+    // 清除訂單
+    function clearOrder() {
+      order = {};
+      products.forEach(p => {
+        document.getElementById(`qty-${p.id}`).textContent = "數量: 0";
+      });
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("total-bar").textContent = "總金額: 0 元";
+    }
+  </script>
+</body>
+</html>
+
