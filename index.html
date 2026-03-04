@@ -6,30 +6,72 @@
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .product { display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+   .product { 
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  font-size: 30px;
+}
     .btn-group { margin-top: 10px; }
-    button { padding: 10px; font-size: 16px; border-radius: 6px; border: none; margin: 5px; }
-    .add-btn { background: #4CAF50; color: white; }
-    .remove-btn { background: #f44336; color: white; }
-    button:active { opacity: 0.8; }
+button { 
+  padding: 30px 40px;      /* 再加大內距 */
+  font-size: 72px;         /* 再放大字體 */
+  font-weight: bold;
+  border-radius: 16px;     
+  border: none; 
+  margin: 10px;
+  min-width: 120px;        /* 增加寬度 */
+  min-height: 120px;       /* 增加高度 */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  transition: all 0.15s;
+}
+    .add-btn { 
+      background: #4CAF50; 
+      color: white; 
+    }
+    .remove-btn { 
+      background: #f44336; 
+      color: white; 
+    }
+    button:active { 
+      opacity: 0.7; 
+      transform: scale(0.95); /* 按下時縮小效果 */
+    }
     #result { margin-top: 80px; font-size: 18px; }
-    .clear-btn { background: #555; color: white; padding: 12px; font-size: 18px; border-radius: 8px; margin-top: 20px; }
-    .qty { margin-top: 5px; font-size: 16px; color: #333; }
+    .clear-btn { 
+      background: #555; 
+      color: white; 
+      padding: 16px 24px;  /* 統一加大 */
+      font-size: 20px; 
+      border-radius: 12px; 
+      margin-top: 20px; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+   .qty { 
+  margin-top: 8px; 
+  font-size: 32px;   /* 放大 */
+  color: #222; 
+  font-weight: bold; 
+}
     /* 固定頂端總金額區 */
    #total-bar {
-  position: fixed;
-  top: 10px;          /* 距離頂端一點點 */
-  left: 50%;          /* 水平置中 */
-  transform: translateX(-50%); /* 讓區塊真正置中 */
-  background: #2196F3;
-  color: white;
-  font-size: 16px;    /* 字體縮小 */
-  text-align: center;
-  padding: 8px 16px;  /* 方塊大小 */
-  border-radius: 8px; /* 圓角方塊 */
-  z-index: 1000;
-}
-
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2196F3;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      padding: 12px 24px;
+      border-radius: 12px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
@@ -75,14 +117,16 @@
     products.forEach(p => {
       const div = document.createElement("div");
       div.className = "product";
-      div.innerHTML = `
-        <strong>${p.name} (${p.price}元)</strong>
-        <div class="btn-group">
-          <button class="add-btn" onclick="addToOrder(${p.id})">+</button>
-          <button class="remove-btn" onclick="removeFromOrder(${p.id})">-</button>
-        </div>
-        <div class="qty" id="qty-${p.id}">數量: 0</div>
-      `;
+     div.innerHTML = `
+  <div>
+    <strong>${p.name} (${p.price}元)</strong>
+    <div class="qty" id="qty-${p.id}">數量: 0</div>
+  </div>
+  <div class="btn-group">
+    <button class="add-btn" onclick="addToOrder(${p.id})">+</button>
+    <button class="remove-btn" onclick="removeFromOrder(${p.id})">-</button>
+  </div>
+`;
       productButtons.appendChild(div);
     });
 
@@ -97,7 +141,7 @@
     function removeFromOrder(id) {
       if (order[id] && order[id] > 0) {
         order[id]--;
-        if (order[id] === 0) delete order[id]; // 數量為 0 時移除
+        if (order[id] === 0) delete order[id];
         updateResult();
       }
     }
@@ -133,4 +177,5 @@
   </script>
 </body>
 </html>
+
 
