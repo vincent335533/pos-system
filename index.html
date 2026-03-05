@@ -7,9 +7,9 @@
     body { font-family: Arial, sans-serif; margin: 20px; }
     .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
    .product { 
-  display: flex; 
-  justify-content: space-between;
+ display: flex; 
   align-items: center;
+  gap: 10px;   /* 控制文字和按鈕距離 */
   padding: 10px; 
   border: 1px solid #ccc; 
   border-radius: 8px; 
@@ -17,14 +17,14 @@
 }
     .btn-group { margin-top: 10px; }
 button { 
-  padding: 30px 40px;      /* 再加大內距 */
+  padding: 3px 4px;      /* 再加大內距 */
   font-size: 72px;         /* 再放大字體 */
   font-weight: bold;
   border-radius: 16px;     
   border: none; 
   margin: 10px;
-  min-width: 120px;        /* 增加寬度 */
-  min-height: 120px;       /* 增加高度 */
+  min-width: 100px;        /* 增加寬度 */
+  min-height: 100px;       /* 增加高度 */
   box-shadow: 0 6px 12px rgba(0,0,0,0.3);
   transition: all 0.15s;
 }
@@ -177,5 +177,7 @@ button {
   </script>
 </body>
 </html>
+
+
 
 
