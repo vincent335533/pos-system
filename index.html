@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
@@ -35,14 +34,12 @@ justify-content:space-between;
 gap:10px;
 }
 
-/* 總金額 */
 .total-text{
 font-size:clamp(16px,5vw,26px);
 font-weight:bold;
 white-space:nowrap;
 }
 
-/* 收銀區 */
 .cash-box{
 display:flex;
 align-items:center;
@@ -59,7 +56,6 @@ border-radius:6px;
 border:none;
 }
 
-/* 找零 */
 .change-text{
 font-size:clamp(14px,4vw,20px);
 font-weight:bold;
@@ -146,11 +142,20 @@ max-height:200px;
 overflow-y:auto;
 }
 
+/* 兩個商品一行 */
+#detail-list{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:6px;
+}
+
 .detail-item{
 padding:8px;
-border-bottom:1px solid #eee;
-font-size:18px;
+border:1px solid #eee;
+border-radius:8px;
+font-size:16px;
 cursor:pointer;
+background:#fafafa;
 }
 
 .bottom-bar{
@@ -368,8 +373,3 @@ document.getElementById("change").textContent=0
 
 </body>
 </html>
-
-
-
-
-
